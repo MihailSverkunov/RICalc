@@ -1,3 +1,4 @@
+import javax.swing.JFileChooser;
 import model.Incident;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFRow;
@@ -19,7 +20,9 @@ public class RICalc {
         XSSFWorkbook workbook = null;
 
         try {
-            file = new FileInputStream(new File("src/main/resources/ПеШ2 и более.xlsx"));
+            JFileChooser fileChooser = new JFileChooser();
+            fileChooser.showOpenDialog(null);
+            file = new FileInputStream(fileChooser.getSelectedFile());
             workbook = new XSSFWorkbook(file);
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -41,8 +44,10 @@ public class RICalc {
             if (Objects.isNull(row.getCell(0, Row.MissingCellPolicy.RETURN_NULL_AND_BLANK))) {
                 break;
             }
-            incident.fillIncident(row);
-            incidents.add(incident);
+            boolean valid = incident.fillIncident(row);
+            if(valid){
+                incidents.add(incident);
+            }
         }
 
 
