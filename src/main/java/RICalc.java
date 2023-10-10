@@ -38,6 +38,8 @@ public class RICalc {
             iterator.next();
         }
 
+        List<Double> numbers = new ArrayList<>();
+
         while (iterator.hasNext()) {
             Incident incident = new Incident();
             Row row = iterator.next();
@@ -45,7 +47,8 @@ public class RICalc {
                 break;
             }
             boolean valid = incident.fillIncident(row);
-            if(valid){
+            if(valid && !numbers.contains(incident.getNumber())){
+                numbers.add(incident.getNumber());
                 incidents.add(incident);
             }
         }
